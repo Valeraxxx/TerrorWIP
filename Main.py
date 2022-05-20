@@ -4,20 +4,21 @@ from services import TerroistDeamon as td
 import subprocess
 import threading
 from time import sleep
-##Define Main Class for Internal Instruction and Interaction
+
+from services.JobHandler import JobHandler
+
+##Root program where the Main thread will be launched.
+
 TERROR_VER = "Dev0.0.0.12.1"
 print("Checking if Daemon Service is ready..")
 
-
-key_watch = set()
-
-response = td.Job()
+response = td.Job() # Storing Response from Deamon Job Function
 
 if response == 0:
     print("Daemon Service is busy Attempting when requested.")
 if response == 1:
-    print("Daemon Service is free, Attempting Service launch...")
-    td.DT.join()
+    print("Daemon Service is free and ready.")
+    
 
 print("Passing Shell...")
 sleep(2)
@@ -35,6 +36,8 @@ sleep(3)
 
 subprocess.run('clear')
 
+# Many other things below 
+
 class TerroistInstructor:
         def InstructionSendOut(self):
             KNOWN_CMDS = ['daemon', 'clear', "help", "exit", "switch"]
@@ -42,9 +45,13 @@ class TerroistInstructor:
             match self:
                 case "daemon":
                     print("Launching Daemon Service")
-                    td.Job(0)
-                    td.DT.join()
-                    TerroistInstructor.Shell()
+                    if td.switch == 0:
+                        print("Daemon Not ready.")
+                        TerroistInstructor.Shell()
+                    else:
+                        td.DT.start()
+                        td.DT.join()
+                        TerroistInstructor.Shell()
                 case "clear":
                     subprocess.run("clear")
                     TerroistInstructor.Shell()
@@ -65,7 +72,7 @@ class TerroistInstructor:
             
         def Shell():
             while True:
-                SHELL_IN = input("Terror:> ")
+                SHELL_IN = input("Terror:> ").lower()
 
                 KNOWN_CMDS = ['daemon', 'clear', "help", "exit", "switch"]
 
@@ -78,7 +85,7 @@ class TerroistInstructor:
                         continue
 
         def DaemonOperatingStatusSwitch():
-            print("Switch Value MUST BE AN INT. 0 Daemon is busy and will not accept new task, 1 Daemon Is ready.")
+            print(f"Switch Value MUST BE AN INT. 0 Daemon is busy and will not accept new task, 1 Daemon Is ready.\nCurrentt switch value: {td.switch}")
             SwitchValue = input("Switch Value: ")
 
 
