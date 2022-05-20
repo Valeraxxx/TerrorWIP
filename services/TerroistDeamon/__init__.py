@@ -1,14 +1,14 @@
-import threading
 from time import sleep
-from threading import *
-import JobHandler
+import threading 
+import services.JobHandler as JobHandler
+
 lock = threading.Lock()
 
 class TerroistDaemon:
     def __init__(self) -> None:
         print("Daemon Started...")
         Response = JobHandler.JobHandler.DaemonJobEnterancePoint()
-        ##TODO
+        print(f"Generated Job Variables")
         if Response == 3:
             print("No Jobs to do.")
         ##TODO
@@ -18,10 +18,10 @@ class TerroistDaemon:
 
 switch = 0
 
-DT = threading.Thread(target=Wait, name='Terroist-DaemonPService', daemon=True)
+DT = threading.Thread(target=TerroistDaemon, name='Terroist-DaemonPService', daemon=True)
 
 def Job() -> None:
-    
+    JOBS = 0
     IdleSwitch = False
 
     if switch == 0:

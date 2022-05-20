@@ -1,6 +1,9 @@
-from random import Random, random
+import random
 
-#
+
+
+
+
 
 class CodeGeneration():
     def JobVarSetup(self):
@@ -8,11 +11,11 @@ class CodeGeneration():
         LengthOfJobs = len(self)
         VarNameGen = ['a', 'x', 'j', 'n', 'w', 'q', 'p', 'tdS']
         for i in ProvidedJobs:
-            VarNameAs = Random.choice(VarNameGen)
-            VarNumber = Random.randint(0, 30)
+            VarNameAs = random.choice(VarNameGen)
+            VarNumber = random.randint(0, 30)
             VariableF = f'{VarNameAs}{VarNumber} = \'{i}\''
-            CreatedVars.append(VariableF)
             CreatedVars = []
+            CreatedVars.append(VariableF)
         return CreatedVars
 
     
