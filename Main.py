@@ -4,12 +4,13 @@ from services import TerroistDeamon as td
 import subprocess
 import threading
 from time import sleep
-
+from services.AssestManageT.Main import CodeGenerationPRE
 from services.JobHandler import JobHandler
 
 ##Root program where the Main thread will be launched.
 
 TERROR_VER = "Dev0.0.0.12.1"
+TERROR_CGB = 'cgb.tbf'
 print("Checking if Daemon Service is ready..")
 
 response = td.Job() # Storing Response from Deamon Job Function
@@ -40,7 +41,7 @@ subprocess.run('clear')
 
 class TerroistInstructor:
         def InstructionSendOut(self):
-            KNOWN_CMDS = ['daemon', 'clear', "help", "exit", "switch"]
+            KNOWN_CMDS = ['daemon', 'clear', "help", "exit", "switch", "codegen"]
 
             match self:
                 case "daemon":
@@ -58,23 +59,25 @@ class TerroistInstructor:
                 case "exit":
                     print("Exit")
                     exit(0)
-                case "help":
-                    print("""
+                case "help": # Later
+                    print(""" 
                     Clear
                     Help
                     Daemon
                     Exit""")
                 case "switch":
                     TerroistInstructor.DaemonOperatingStatusSwitch()
+                case "codegen":
+                    CodeGen.Shell()
                 case _:
                     return 0 
 
             
         def Shell():
             while True:
-                SHELL_IN = input("Terror:> ").lower()
+                SHELL_IN = input("Terror:> ").lower().strip()
 
-                KNOWN_CMDS = ['daemon', 'clear', "help", "exit", "switch"]
+                KNOWN_CMDS = ['daemon', 'clear', "help", "exit", "switch", "codegen"]
 
                 for i in KNOWN_CMDS:
                     CurrentC = i
@@ -103,6 +106,36 @@ class TerroistInstructor:
                 print("Invalid Option")
                 TerroistInstructor.Shell()
                 
+# Codegen will NOT be handled by the daemon thread, Instead it'll be handled by the parent thread.
+class CodeGen:
+
+    def CodeGenVerify(__CODEGENC):
+        match __CODEGENC:
+            case "generate-cgb":
+                CodeGenerationPRE.GenerateCodeGenBase(TERROR_CGB)
+            case "main":
+                TerroistInstructor.Shell()
+            case _:
+                return 0
+                
+
+
+    def Shell():
+        Code_Gen_C = ['generate-cgb', "main"]
+        while True:
+            __CodeGI = input("CODEGEN: ").lower().strip()
+            for x in Code_Gen_C:
+                Current = x
+                if __CodeGI != Current:
+                    continue
+                else:
+                    CodeGen.CodeGenVerify(__CodeGI)
+
+    
+                    
+
+
+
 
 
                         

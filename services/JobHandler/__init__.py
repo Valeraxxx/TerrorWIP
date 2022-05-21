@@ -7,9 +7,9 @@ Q_JOBS = [1,1,1]
 
 FileForAsset = "./services/AssestManageT/Main.py"
 
-##TODO
 
-CollectedVars =  CodeGeneration.JobVarSetup(Q_JOBS)
+
+CollectedVars =  CodeGenerationPRE.JobVarSetup(Q_JOBS)
 
 
 class JobHandler:
