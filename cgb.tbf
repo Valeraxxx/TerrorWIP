@@ -1,7 +1,5 @@
-GEN FOLDER Codegeneration
-DEL FOLDER Codegeneration
-GEN FOLDER Joe
-GEN FILE Test
-DEL FOLDER Joe
-DEL FILE Test
+def TestRun
+GEN FOLDER Wow
+GEN FOLDER It in Wow
+GEN FOLDER Worked in It 
 END
