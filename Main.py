@@ -11,6 +11,7 @@ from services.JobHandler import JobHandler
 
 TERROR_VER = "Dev0.0.0.12.1"
 TERROR_CGB = 'cgb.tbf'
+TERROR_CGB_PTH = './cgb.tbf'
 print("Checking if Daemon Service is ready..")
 
 response = td.Job() # Storing Response from Deamon Job Function
@@ -112,7 +113,7 @@ class CodeGen:
     def CodeGenVerify(__CODEGENC):
         match __CODEGENC:
             case "generate-cgb":
-                CodeGenerationPRE.GenerateCodeGenBase(TERROR_CGB)
+                CodeGenerationPRE.GenerateCodeGenBase(TERROR_CGB, TERROR_CGB_PTH)
             case "main":
                 TerroistInstructor.Shell()
             case _:
