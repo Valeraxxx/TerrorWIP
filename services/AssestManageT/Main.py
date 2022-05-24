@@ -3,6 +3,8 @@ import random
 from re import sub
 import subprocess
 import os
+from traceback import print_tb
+from typing import Any
 
 
 
@@ -28,9 +30,11 @@ class CodeGenerationPRE():
         with open(__TerrorBuildFileCGB, 'r') as cgb:
             Lin = cgb.readlines()
             for i, x in enumerate(Lin):
+                LengthS = len(Lin)
                 ReturnToMe = False
                 LineBeingProc = i
-                if i > 0: 
+                
+                if i > LengthS: 
                     ReturnToMe = True
                 else:
                     pass
@@ -41,18 +45,20 @@ class CodeGenerationPRE():
                 match LFN[0]:
                     case "GEN":
                         CodeGenerationPRE.GEN(LFN[1], LFN[2], Path, ReturnToMe)
-                    case "OUT":
-                        pass
                     case "ADD":
                         pass
                     case "DEL":
-                        pass
+                        Pth = f"./{LFN[2]}"
+                        CodeGenerationPRE.DEL(LFN[1], Pth, ReturnToMe, Path)
+                    case "END":
+                        CodeGenerationPRE.END()
                     case _:
                         return
     
     def GEN(__FType, __FName, GCBP, RtoGCGB):
         ftt = 9
         fttS = ""
+        foo = f"./{__FName}"
         ReturnToMai = RtoGCGB
         match __FType:
             case "FOLDER":
@@ -63,27 +69,71 @@ class CodeGenerationPRE():
                 fttS = "File"
             case _:
                 ftt = 9
-                ftts = '?'
+                fttS = '?'
         
         if ftt == 0:
             pth = f"./{__FName}"
-            os.mkdir(pth)
-            pass
+            try:
+                os.mkdir(pth) 
+            except FileExistsError:
+                print("Folder Exists already.")
+
+            
         elif ftt == 1:
             outp = f'./{__FName}'
+
             fo = open(outp, "w")
             fo.close()
             pass
         else:
             return 0
             
-        print(f"Created {fttS} {outp} from {GCBP}")
+        print(f"Created {fttS} {foo} from {GCBP}")
         if ReturnToMai == True:
             CodeGenerationPRE.GenerateCodeGenBase(GCBP, GCBP)
         elif ReturnToMai == False:
             pass
         else:
             pass
+
+    def DEL(_FType, _FPath, RtoGCGB, GCBP):
+        match _FType:
+                    case "FOLDER":
+                        try:
+                            os.rmdir(_FPath)
+                            pass
+                        except NotADirectoryError as b:
+                            print(f"{_FPath} Doesnt Exists.")
+                            pass
+                        except FileNotFoundError as b:
+                            print(f"{_FPath} Doesnt Exists.")
+                            pass
+
+                    case "FILE":
+                        try:
+                            os.remove(_FPath)
+                            print(f"Deleted {_FPath}.")
+                            pass
+                        except FileNotFoundError as s:
+                            print(f"{_FPath} Doesnt Exists.")
+                            pass
+                    case _:
+                        ftt = 9
+                        fttS = '?'
+        
+
+        
+        if RtoGCGB == True:
+            CodeGenerationPRE.GenerateCodeGenBase(GCBP, GCBP)
+        else:
+            return
+    
+    def END():
+        print("Reached EOL.")
+        return
+
+
+
 
         
                 
